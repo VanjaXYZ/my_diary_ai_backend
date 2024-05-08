@@ -1,0 +1,57 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { RegistrationService } from './registration.service';
+import { CreateRegistrationDto } from './dto/create-registration.dto';
+import { UpdateRegistrationDto } from './dto/update-registration.dto';
+import { Prisma, User } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
+
+@Controller('registration')
+export class RegistrationController {
+  constructor(
+    private readonly registrationService: RegistrationService,
+    private prisma: PrismaService,
+  ) {}
+
+  // @Post()
+  // create(@Body() createRegistrationDto: CreateRegistrationDto) {
+  //   return this.registrationService.create(createRegistrationDto);
+  // }
+
+  @Post()
+  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+    return this.prisma.user.create({
+      data,
+    });
+  }
+
+  @Get()
+  findAll() {
+    return this.registrationService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.registrationService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateRegistrationDto: UpdateRegistrationDto,
+  ) {
+    return this.registrationService.update(+id, updateRegistrationDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.registrationService.remove(+id);
+  }
+}
