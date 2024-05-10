@@ -1,19 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { RegistrationService } from './registration.service';
-import { CreateRegistrationDto } from './dto/create-registration.dto';
-import { UpdateRegistrationDto } from './dto/update-registration.dto';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
+import { UpdateRegistrationDto } from './dto/update-registration.dto';
+import { RegistrationService } from './registration.service';
 
-@Controller('registration')
+@Controller('register')
 export class RegistrationController {
   constructor(
     private readonly registrationService: RegistrationService,
@@ -26,10 +25,13 @@ export class RegistrationController {
   // }
 
   @Post()
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
-      data,
-    });
+  async registerUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
+    try {
+      const user = await this.registrationService.registerUser(userData);
+      return user;
+    } catch (error) {
+      throw new Error('Failed to register user.');
+    }
   }
 
   @Get()
