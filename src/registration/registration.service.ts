@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRegistrationDto } from './dto/create-registration.dto';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 import { UpdateRegistrationDto } from './dto/update-registration.dto';
 
 @Injectable()
 export class RegistrationService {
-  create(createRegistrationDto: CreateRegistrationDto) {
-    return 'This action adds a new registration';
+  constructor(private prisma: PrismaService) {}
+  // async registerUser(createRegistrationDto: CreateRegistrationDto) {
+  //   return 'This action adds a new registration';
+  // }
+
+  async registerUser(data: Prisma.UserCreateInput): Promise<any> {
+    try {
+      const user = await this.prisma.user.create({ data });
+      return user;
+    } catch (error) {
+      throw new Error('Failed to register user.');
+    }
   }
 
   findAll() {
