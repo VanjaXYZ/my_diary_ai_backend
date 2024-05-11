@@ -19,11 +19,6 @@ export class RegistrationController {
     private prisma: PrismaService,
   ) {}
 
-  // @Post()
-  // create(@Body() createRegistrationDto: CreateRegistrationDto) {
-  //   return this.registrationService.create(createRegistrationDto);
-  // }
-
   @Post()
   async registerUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
     try {
