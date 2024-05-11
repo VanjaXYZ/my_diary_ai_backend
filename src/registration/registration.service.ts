@@ -6,9 +6,6 @@ import { UpdateRegistrationDto } from './dto/update-registration.dto';
 @Injectable()
 export class RegistrationService {
   constructor(private prisma: PrismaService) {}
-  // async registerUser(createRegistrationDto: CreateRegistrationDto) {
-  //   return 'This action adds a new registration';
-  // }
 
   async registerUser(data: Prisma.UserCreateInput): Promise<any> {
     try {
