@@ -22,10 +22,15 @@ export class RegistrationController {
   ) {}
 
   @Post()
-  async registerUser(@Body() userData: Prisma.UserCreateInput): Promise<User> {
+  async registerUser(
+    @Body() userData: Prisma.UserCreateInput,
+  ): Promise<{ message: string; user: User }> {
     try {
       const user = await this.registrationService.registerUser(userData);
-      return user;
+      return {
+        message: 'Registration successfull.',
+        user,
+      };
     } catch (error) {
       if (error instanceof HttpException) {
         throw error; // Re-throw HTTP exceptions directly
