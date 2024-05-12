@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -25,7 +27,15 @@ export class RegistrationController {
       const user = await this.registrationService.registerUser(userData);
       return user;
     } catch (error) {
-      throw new Error('Failed to register user.');
+      if (error instanceof HttpException) {
+        throw error; // Re-throw HTTP exceptions directly
+      } else {
+        // If it's not an HTTP exception, handle other errors
+        throw new HttpException(
+          'Internal Server Error',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
     }
   }
 
