@@ -20,6 +20,7 @@ export class RegistrationService {
           HttpStatus.UNPROCESSABLE_ENTITY,
         );
       }
+
       const user = await this.prisma.user.create({ data });
       return user;
     } catch (error) {
