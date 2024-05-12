@@ -23,7 +23,7 @@ export class RegistrationService {
       const user = await this.prisma.user.create({ data });
       return user;
     } catch (error) {
-      throw new Error('Failed to register user.');
+      throw error;
     }
   }
 
