@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
@@ -9,7 +17,10 @@ export class LoginController {
 
   @Post()
   create(@Body() createLoginDto: CreateLoginDto) {
-    return this.loginService.create(createLoginDto);
+    return this.loginService.login(
+      createLoginDto.username,
+      createLoginDto.password,
+    );
   }
 
   @Get()
@@ -19,7 +30,7 @@ export class LoginController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.loginService.findOne(+id);
+    return this.loginService.findOne(id);
   }
 
   @Patch(':id')
