@@ -42,12 +42,19 @@ export class UserService {
     });
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    const users = await this.prisma.user.findMany();
+    console.log('USERS: ', users);
+    return users;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string, password: string): Promise<User | undefined> {
+    console.log(username, password);
+    return this.prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
